@@ -1,0 +1,45 @@
+{
+  "name": "establishment-nodews",
+  "version": "0.1.0",
+  "description": "Establishment's web platform stack websocket server",
+  "main": "source/EntryPoint.js6.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "establishment-nodews": "./bin/establishment-nodews"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/establishment/establishment-nodews.git"
+  },
+  "keywords": [
+    "establishment",
+    "framework",
+    "core",
+    "util",
+    "service",
+    "redis",
+    "websocket",
+    "ws",
+    "server"
+  ],
+  "author": "Establishment Framework <establishment.framework@gmail.com>",
+  "license": "(Unlicense or Public-Domain)",
+  "bugs": {
+    "url": "https://github.com/establishment/establishment-nodews/issues"
+  },
+  "homepage": "https://github.com/establishment/establishment-nodews#readme",
+  "dependencies": {
+    "establishment-node-service-core": "latest",
+    "establishment-node-core": "latest",
+    "cookie": "latest",
+    "ws": "latest"
+  },
+  "devDependencies": {
+    "establishment-node-service-core": "latest",
+    "establishment-node-core": "latest",
+    "cookie": "latest",
+    "ws": "latest"
+  }
+}

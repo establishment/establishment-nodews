@@ -1,0 +1,121 @@
+{
+     "service": {
+        "name": "nodews",
+        "status": {
+            "redis": {
+                "address": null
+            }
+        },
+        "instanceId": {
+            "uidFactory": {
+                "redis": {
+                    "address": null
+                }
+            },
+            "path": "pid/$SERVICE_NAME.sid"
+        }
+    },
+    "server": {
+        "listen": {
+            "port": 1337
+        },
+        "redisDispatcher": {
+            "redis": {
+                "address": null
+            }
+        },
+        "uidFactory": {
+            "redis": {
+                "address": null,
+                "prefix": "meta-unique-identifier"
+            }
+        },
+        "permissionChecker": {
+            "redis": {
+                "address": null,
+                "stream": {
+                    "permission": "meta-subscription-permissions",
+                    "identification": "meta-user-identification"
+                }
+            }
+        },
+        "metadataObserver": {
+            "redis": {
+                "address": null,
+                "key": {
+                    "guestConnections": "nodews-meta-guest-connections-counter"
+                }
+            }
+        },
+        "metadataBridge": {
+            "redis": {
+                "address": null,
+                "inputStream": "nodews-meta-stream-output",
+                "outputStream": "nodews-meta-stream-input",
+                "keepAliveTime": 3000
+            }
+        },
+        "redisCache": {
+            "redis": {
+                "address": null
+            },
+            "expire": {
+                "start": 900000,
+                "max": 7200000,
+                "coeff": 1.5
+            }
+        },
+        "userConnection": {
+            "redis": {
+                "address": null
+            },
+            "heartbeat": {
+                "message": "-hrtbt-",
+                "interval": {
+                    "min": 28000,
+                    "max": 32000
+                }
+            }
+        }
+    },
+    "logging": {
+        "redisAddress": null,
+        "name": "nodews",
+        "level": "DEBUG"
+    },
+    "gc": {
+        "initialTimeInterval": {
+            "min": 25000,
+            "max": 30000
+        },
+        "maxLatency": 120,
+        "lowerTimeInterval": {
+            "min": 4000,
+            "max": 6000
+        },
+        "minLatency": 30,
+        "upperTimeInterval": {
+            "min": 30000,
+            "max": 45000
+        }
+    },
+    "registryKeeper": {
+        "redis": {
+            "address": null,
+            "prefix": "meta-registry-nodews-",
+            "stream": "meta-registry-stream",
+            "keepTrack": ["enable-guests", "max-guests", "enable-csrf", "treat-unauthorized-as-guest"]
+        }
+    },
+    "rpcServer": {
+        "redis": {
+            "address": null,
+            "inputStream": "node-rpc-in",
+            "outputStream": "node-rpc-out"
+        }
+    },
+    "machineId": {
+        "script": null,
+        "mockId": 1
+    }
+}

@@ -1,0 +1,6 @@
+#!/bin/sh
+":" //# comment; exec /usr/bin/env node --use_strict --nouse-idle-notification --expose-gc --max-old-space-size=8192 "$0" "$@"
+
+let EstablishmentNodeWS = require("establishment-nodews");
+
+EstablishmentNodeWS.Server.run({"configFilePath": process.argv[2]});
