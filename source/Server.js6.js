@@ -3,7 +3,6 @@ const path = require("path");
 
 const {GCScheduler} = require("establishment-node-core");
 const {Glue, RPCServer, Util} = require("establishment-node-service-core");
-const ServiceUtil = Util;
 
 const WebsocketServer = require("./WebsocketServer.js6.js");
 const UserConnection = require("./UserConnection.js6.js");
@@ -23,11 +22,11 @@ module.exports.run = (params) => {
         config = DefaultConfig();
     }
 
+    Util.setMockMachineId(config.machineId.mockId);
+    Util.setMachineIdScript(config.machineId.script);
     Glue.initLogger(config.logging);
     Glue.initRegistryKeeper(config.registryKeeper);
     Glue.initService(config.service);
-    ServiceUtil.setMockMachineId(config.machineId.mockId);
-    ServiceUtil.setMachineIdScript(config.machineId.script);
 
     GCScheduler.configure(config.gc);
     GCScheduler.setLogger(Glue.logger);
