@@ -96,10 +96,8 @@ class MetadataBridge {
 
         if (message.type == "requestSyncAll") {
             this.syncWithState();
-            Glue.logger.critical("Got requestSyncAll request!");
         } else if (message.type == "checkAliveAll") {
             this.checkAlive();
-            Glue.logger.critical("Got checkAliveAll request!");
         } else if (message.type == "requestSync") {
             if (!message.hasOwnProperty("id")) {
                 Glue.logger.critical("Establishment::MetadataBridge: requestSync message should contain id!");
@@ -107,7 +105,6 @@ class MetadataBridge {
             }
             if (message.id == this.uid) {
                 this.syncWithState();
-                Glue.logger.critical("Got requestSync request!");
             }
         } else if (message.type == "checkAlive") {
             if (!message.hasOwnProperty("id")) {
@@ -116,7 +113,6 @@ class MetadataBridge {
             }
             if (message.id == this.uid) {
                 this.checkAlive();
-                Glue.logger.critical("Got checkAlive request!");
             }
         } else {
             Glue.logger.critical("Establishment::MetadataBridge: bad message \"" + JSON.stringify(message) +
@@ -125,7 +121,7 @@ class MetadataBridge {
     }
 
     checkAlive() {
-        this.keepAlive(-1);
+        this.keepAlive(this.config.redis.keepAliveTime);
     }
 
     parseMessage(message) {
