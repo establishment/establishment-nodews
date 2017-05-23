@@ -31,7 +31,8 @@ class WebsocketServer {
     }
 
     run() {
-        this.webSocketServer.on("connection", (webSocket) => {
+        this.webSocketServer.on("connection", (webSocket, req) => {
+            webSocket.upgradeReq = req;
             new UserConnection(this.config.userConnection, webSocket, this.redisDispatcher, this.uidFactory,
                                this.permissionChecker, this.metadataObserver, this.metadataBridge, this.redisCache,
                                this.permissionDispatcher);
