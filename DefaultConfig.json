@@ -33,9 +33,13 @@
         "permissionChecker": {
             "redis": {
                 "address": null,
-                "stream": {
-                    "permission": "meta-subscription-permissions",
-                    "identification": "meta-user-identification"
+                "identification": {
+                    "queueName": "meta-user-identification",
+                    "responseStream": "meta-user-identification"
+                },
+                "permission": {
+                    "queueName": "meta-subscription-permissions",
+                    "responseStream": "meta-subscription-permissions"
                 }
             }
         },
