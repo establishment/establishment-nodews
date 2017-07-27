@@ -193,8 +193,7 @@ class UserConnection {
             }
             this.redisDispatcher.subscribe(channel, this);
             this.metadataBridge.userConnectionSubscribe(this.uid, this.userId, channel);
-            Glue.logger.info("Establishment::UserConnection: permission to subscribe #" + channel + " accepted! (" +
-                             reason + ")");
+            Glue.logger.info("Establishment::UserConnection: permission to subscribe #" + channel + " accepted! (" + reason + ")");
 
             if (this.streamLastIndex.has(channel)) {
                 let index = this.streamLastIndex.get(channel);
@@ -202,16 +201,14 @@ class UserConnection {
                 this.resendStreamMessages(channel, index);
             }
         } else {
-            this.send("error: Invalid subscription on stream " + channel + " for userId " + this.userId);
-            Glue.logger.warn("Establishment::UserConnection: permission to subscribe #" + channel + " declined! (" +
-                             reason + ")");
+            this.send("error invalidSubscription " + channel + " " + this.userId);
+            Glue.logger.warn("Establishment::UserConnection: permission to subscribe #" + channel + " declined! (" + reason + ")");
         }
     }
 
     requestIdentification() {
         if (this.crossSessionId == null) {
-            Glue.logger.error("Establishment::UserConnection: requestIdentification called but there is no " +
-                              "crossSessionId!");
+            Glue.logger.error("Establishment::UserConnection: requestIdentification called but there is no crossSessionId!");
             return;
         }
         this.permissionDispatcher.registerIdentification(this);
