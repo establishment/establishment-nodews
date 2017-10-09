@@ -16,13 +16,14 @@ class RedisDispatcher {
         });
 
         this.redisClient.on("subscribe", (channel, count) => {
-            Glue.logger.info("Establishment::RedisDispatcher: subscribe to #" + channel + ", " + count +
-                             " total subscriptions");
+            // TODO: keep track globally of the number of submissions
+            // Glue.logger.info("Establishment::RedisDispatcher: subscribe to #" + channel + ", " + count +
+            //                  " total subscriptions");
         });
 
         this.redisClient.on("unsubscribe", (channel, count) => {
-            Glue.logger.info("Establishment::RedisDispatcher: no more UserConnection listening to #" + channel +
-                             ", unsubscribe. Total subscriptions remaining: " + count);
+            // Glue.logger.info("Establishment::RedisDispatcher: no more UserConnection listening to #" + channel +
+            //                  ", unsubscribe. Total subscriptions remaining: " + count);
         });
 
         this.redisClient.on("message", (channel, message) => {
@@ -92,25 +93,23 @@ class RedisDispatcher {
             userConnections.delete(userConnection);
             if (userConnections.size == 0) {
                 //TODO: add remanence to optimize single-tab users
-                Glue.logger.info("Establishment::RedisDispatcher: no more listeners on #" + channel + " (unsubscribe)");
+                //Glue.logger.info("Establishment::RedisDispatcher: no more listeners on #" + channel + " (unsubscribe)");
                 this.streamToUserConnection.delete(channel);
                 this.redisClient.unsubscribe(channel);
             }
         } else {
-            Glue.logger.error("Establishment::RedisDispatcher: stream-to-userconnection does not contain channel #" +
-                              channel);
+            Glue.logger.error("Establishment::RedisDispatcher: stream-to-userconnection does not contain channel #" + channel);
         }
 
         if (this.userConnectionToStream.has(userConnection)) {
             let streams = this.userConnectionToStream.get(userConnection);
             streams.delete(channel);
             if (streams.size == 0) {
-                Glue.logger.info("Establishment::RedisDispatcher: UserConnection no longer subscribed to any channel!");
+                // Glue.logger.info("Establishment::RedisDispatcher: UserConnection no longer subscribed to any channel!");
                 this.userConnectionToStream.delete(channel);
             }
         } else {
-            Glue.logger.error("Establishment::RedisDispatcher: userconnection-to-stream does not contain uid=" +
-                              userConnection.uid);
+            Glue.logger.error("Establishment::RedisDispatcher: userconnection-to-stream does not contain uid=" + userConnection.uid);
         }
     }
 

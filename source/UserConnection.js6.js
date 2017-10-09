@@ -70,16 +70,13 @@ class UserConnection {
         let token = message.split(" ");
 
         if (token[0] == "s" && token.length == 2) {
-            Glue.logger.info("Establishment::UserConnection: " + this.ip + ": want to subscribe to channel '" +
-                             token[1] + "'");
+            // Glue.logger.info("Establishment::UserConnection: " + this.ip + ": want to subscribe to channel '" + token[1] + "'");
             this.requestPermissionSafe(token[1]);
         } else if (token[0] == "u" && token.length == 2) {
-            Glue.logger.info("Establishment::UserConnection: " + this.ip + ": want to unsubscribe from channel '" +
-                             token[1] + "'");
+            // Glue.logger.info("Establishment::UserConnection: " + this.ip + ": want to unsubscribe from channel '" + token[1] + "'");
             this.redisDispatcher.unsubscribe(token[1], this);
         } else if (token[0] == "r" && token.length == 3) {
-            Glue.logger.info("Establishment::UserConnection: " + this.ip + ": want to resubscribe to channel '" +
-                             token[2] + "' from index " + token[1]);
+            // Glue.logger.info("Establishment::UserConnection: " + this.ip + ": want to resubscribe to channel '" + token[2] + "' from index " + token[1]);
             let index = parseInt(token[1]);
             this.streamLastIndex.set(token[2], index);
             this.requestPermissionSafe(token[2]);
@@ -193,7 +190,7 @@ class UserConnection {
             }
             this.redisDispatcher.subscribe(channel, this);
             this.metadataBridge.userConnectionSubscribe(this.uid, this.userId, channel);
-            Glue.logger.info("Establishment::UserConnection: permission to subscribe #" + channel + " accepted! (" + reason + ")");
+            //Glue.logger.info("Establishment::UserConnection: permission to subscribe #" + channel + " accepted! (" + reason + ")");
 
             if (this.streamLastIndex.has(channel)) {
                 let index = this.streamLastIndex.get(channel);
@@ -202,7 +199,7 @@ class UserConnection {
             }
         } else {
             this.send("error invalidSubscription " + channel + " " + this.userId);
-            Glue.logger.warn("Establishment::UserConnection: permission to subscribe #" + channel + " declined! (" + reason + ")");
+            //Glue.logger.warn("Establishment::UserConnection: permission to subscribe #" + channel + " declined! (" + reason + ")");
         }
     }
 
@@ -219,7 +216,7 @@ class UserConnection {
         if (userId == -1) {
             if (Glue.registryKeeper.get("treat-unauthorized-as-guest") == "true") {
                 userId = 0;
-                Glue.logger.info("Establishment::UserConnection: unauthorized connection! Downgrading to guest!");
+                //Glue.logger.info("Establishment::UserConnection: unauthorized connection! Downgrading to guest!");
             } else {
                 let error = {
                     message: "Decline websocket connection!",
