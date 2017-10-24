@@ -108,7 +108,7 @@
             "address": null,
             "prefix": "meta-registry-nodews-",
             "stream": "meta-registry-stream",
-            "keepTrack": ["enable-guests", "max-guests", "enable-csrf", "treat-unauthorized-as-guest"]
+            "keepTrack": ["enable-guests", "max-guests", "enable-csrf"]
         }
     },
     "rpcServer": {

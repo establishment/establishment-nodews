@@ -215,7 +215,7 @@ class UserConnection {
     processIdentificationResult(userId) {
         if (userId == -1) {
             // TODO: might want to change the key that enables guest connections
-            if (Glue.registryKeeper.get("treat-unauthorized-as-guest") != "false") {
+            if (Glue.registryKeeper.get("enable-guests") != "false") {
                 userId = 0;
             } else {
                 let error = {
