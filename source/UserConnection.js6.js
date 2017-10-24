@@ -214,9 +214,9 @@ class UserConnection {
 
     processIdentificationResult(userId) {
         if (userId == -1) {
-            if (Glue.registryKeeper.get("treat-unauthorized-as-guest") == "true") {
+            // TODO: might want to change the key that enables guest connections
+            if (Glue.registryKeeper.get("treat-unauthorized-as-guest") != "false") {
                 userId = 0;
-                //Glue.logger.info("Establishment::UserConnection: unauthorized connection! Downgrading to guest!");
             } else {
                 let error = {
                     message: "Decline websocket connection!",
