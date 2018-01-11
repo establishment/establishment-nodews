@@ -1,6 +1,6 @@
 {
   "name": "establishment-nodews",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Establishment's web platform stack websocket server",
   "main": "source/EntryPoint.js6.js",
   "scripts": {
@@ -33,13 +33,12 @@
   "dependencies": {
     "establishment-node-service-core": "latest",
     "establishment-node-core": "latest",
-    "cookie": "latest",
-    "ws": "2.1.0"
+    "cookie": "latest"
   },
   "devDependencies": {
-    "establishment-node-service-core": "latest",
-    "establishment-node-core": "latest",
     "cookie": "latest",
-    "ws": "latest"
+    "establishment-node-core": "latest",
+    "establishment-node-service-core": "latest",
+    "ws": "^2.1.0"
   }
 }
