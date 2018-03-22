@@ -22,6 +22,9 @@
         "redisDispatcher": {
             "redis": {
                 "address": null
+            },
+            "options": {
+                "rawMessageHandler": "error"
             }
         },
         "uidFactory": {

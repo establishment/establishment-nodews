@@ -2,10 +2,36 @@ const {RedisConnectionPool} = require("establishment-node-core");
 const {Glue} = require("establishment-node-service-core");
 
 class RedisDispatcher {
-    constructor(redisAddress) {
-        this.redisClient = RedisConnectionPool.getConnection(redisAddress);
+    constructor(config) {
+        this.config = config;
+        this.redisClient = RedisConnectionPool.getConnection(config.redis);
         this.streamToUserConnection = new Map();
         this.userConnectionToStream = new Map();
+        this.rawMessageHandler = (...args) => {
+            this.defaultRawMessageHandler(...args);
+        };
+
+        if (this.config.hasOwnProperty("options")) {
+            if (this.config.options.hasOwnProperty("rawMessageHandler")) {
+                if (this.config.options.rawMessageHandler == "treatAsVanilla") {
+                    this.rawMessageHandler = (...args) => {
+                        this.rawMessageHandlerTreatAsVanilla(...args);
+                    };
+                } else if (this.config.options.rawMessageHandler == "error") {
+                    this.rawMessageHandler = (...args) => {
+                        this.rawMessageHandlerError(...args);
+                    };
+                } else if (this.config.options.rawMessageHandler == "suppressError") {
+                    this.rawMessageHandler = (...args) => {
+                        this.rawMessageHandlerSuppressError(...args);
+                    };
+                } else if (this.config.options.rawMessageHandler == "passRaw") {
+                    this.rawMessageHandler = (...args) => {
+                        this.rawMessageHandlerPassRaw(...args);
+                    };
+                }
+            }
+        }
 
         this.redisClient.on("error", (err) => {
             Glue.logger.error("Establishment::RedisDispatcher: " + err);
@@ -62,6 +88,21 @@ class RedisDispatcher {
 
     dispatchVanilla(channel, content) {
         this.dispatch(channel, "v " + content);
+    }
+
+    rawMessageHandlerError(channel, message) {
+        Glue.logger.critical("Establishment::RedisDispatcher: invalid stream message type <RAW_MESSAGE>");
+    }
+
+    rawMessageHandlerTreatAsVanilla(channel, message) {
+        this.dispatchVanilla(channel, message);
+    }
+
+    rawMessageHandlerPassRaw(channel, message) {
+        this.dispatch(channel, message);
+    }
+
+    rawMessageHandlerSuppressError(channel, message) {
     }
 
     subscribe(channel, userConnection) {
@@ -124,5 +165,7 @@ class RedisDispatcher {
         }
     }
 }
+
+RedisDispatcher.prototype.defaultRawMessageHandler = RedisDispatcher.prototype.rawMessageHandlerError;
 
 module.exports = RedisDispatcher;
