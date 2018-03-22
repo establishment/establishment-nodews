@@ -69,7 +69,7 @@ class RedisDispatcher {
         } else if (type == "v") {
             this.dispatchVanilla(channel, withoutType);
         } else {
-            Glue.logger.critical("Establishment::RedisDispatcher: invalid stream message type '" + type + "'");
+            this.rawMessageHandler(channel, message);
         }
     }
 

@@ -1,6 +1,6 @@
 {
   "name": "establishment-nodews",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Establishment's web platform stack websocket server",
   "main": "source/EntryPoint.js6.js",
   "scripts": {
